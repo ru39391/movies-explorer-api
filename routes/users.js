@@ -6,13 +6,13 @@ const {
 
 router.get('/me', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().pattern(/[a-m0-9]{2,24}/).min(2).max(24),
+    userId: Joi.string().hex().length(24),
   }),
 }), getUser);
 router.patch('/me', celebrate({
   body: Joi.object().keys({
+    email: Joi.string().email(),
     name: Joi.string().min(2).max(30),
-    about: Joi.string().min(8).max(30),
   }),
 }), updateUser);
 

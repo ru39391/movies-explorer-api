@@ -19,7 +19,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -33,7 +33,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -60,7 +60,7 @@ module.exports.removeMovie = (req, res, next) => {
         return next(new NotFoundError(errMessageNotFound.movie));
       }
       // eslint-disable-next-line default-case
-      switch (_id === JSON.stringify(Movie.owner).split('"')[1]) {
+      switch (_id === JSON.stringify(movie.owner).split('"')[1]) {
         case true:
           Movie.findOneAndRemove({ owner: _id, _id: movieId })
             .then(() => res.send({ message: actionMessages.successMovieRemoved }))

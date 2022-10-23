@@ -7,15 +7,24 @@ const {
 
 const movieIdValidationConfig = {
   params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24),
+    movieId: Joi.string(),
   }),
 };
 
 router.get('/', getMovies);
 router.post('/', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(patterUrl),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.string().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required().pattern(patterUrl),
+    trailerLink: Joi.string().required().pattern(patterUrl),
+    thumbnail: Joi.string().required().pattern(patterUrl),
+    movieId: Joi.string().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 }), createMovie);
 router.delete('/:movieId', celebrate(movieIdValidationConfig), removeMovie);

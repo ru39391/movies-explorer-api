@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -5,7 +6,8 @@ const { celebrate, errors, Joi } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
-const { errMessageNotFound, patterUrl } = require('./utils/constants');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { actionMessages, errMessageNotFound } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -14,6 +16,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
+});
+
+app.use(require('./middlewares/corsHandler'));
+
+app.use(requestLogger);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error(actionMessages.errorCrashTest);
+  }, 0);
 });
 
 app.post('/signin', celebrate({
@@ -26,9 +37,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(patterUrl),
+    name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
 
@@ -37,9 +46,8 @@ app.use('/movies', auth, require('./routes/movies'));
 
 app.use('*', (req, res, next) => next(new NotFoundError(errMessageNotFound.request)));
 
+app.use(errorLogger);
 app.use(errors());
 app.use(require('./middlewares/errorHandler'));
 
-app.listen(PORT, () => {
-  console.log('Everything is going right');
-});
+app.listen(PORT);
