@@ -36,9 +36,9 @@ const actionMessages = {
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 const allowedCors = [
-  'https://ru39391.students.nomoredomains.icu',
-  'http://ru39391.students.nomoredomains.icu',
-  'http://51.250.12.114',
+  'https://ru39391-d.students.nomoredomains.icu',
+  'http://ru39391-d.students.nomoredomains.icu',
+  'http://130.193.49.197',
   'http://localhost:3000',
 ];
 

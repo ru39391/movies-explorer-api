@@ -6,8 +6,6 @@
 
 ## Ссылки на проект
 
-IP [51.250.12.114](51.250.12.114)
+IP [130.193.49.197](130.193.49.197)
 
-Frontend [https://ru39391.students.nomoredomains.icu](https://ru39391.students.nomoredomains.icu)
-
-Backend [https://api.ru39391.students.nomoredomains.icu](https://api.ru39391.students.nomoredomains.icu)
+Backend [https://api.ru39391-d.students.nomoredomains.icu](https://api.ru39391-d.students.nomoredomains.icu)
