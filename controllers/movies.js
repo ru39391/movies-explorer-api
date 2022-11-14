@@ -54,23 +54,19 @@ module.exports.removeMovie = (req, res, next) => {
   const { movieId } = req.params;
 
   Movie.findById(movieId)
-    // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
         return next(new NotFoundError(errMessageNotFound.movie));
       }
-      // eslint-disable-next-line default-case
-      switch (_id === JSON.stringify(movie.owner).split('"')[1]) {
-        case true:
-          Movie.findOneAndRemove({ owner: _id, _id: movieId })
-            .then(() => res.send({ message: actionMessages.successMovieRemoved }))
-            .catch((err) => next(err));
-          break;
-        case false:
-          return next(new AccessError(actionMessages.errorMovieAccess));
+
+      if (_id === movie.owner.toString().toString()) {
+        Movie.findOneAndRemove({ owner: _id, _id: movieId })
+          .then(() => res.send({ message: actionMessages.successMovieRemoved }))
+          .catch((err) => next(err));
       }
+
+      return next(new AccessError(actionMessages.errorMovieAccess));
     })
-    // eslint-disable-next-line no-unused-vars
     .catch((err) => {
       if (err.name === 'CastError') {
         return next(new ValidationError(actionMessages.errorId));

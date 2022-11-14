@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, errors, Joi } = require('celebrate');
@@ -7,6 +8,7 @@ const NotFoundError = require('./errors/not-found-err');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { DB_ADDRESS } = require('./utils/config');
 const { actionMessages, errMessageNotFound } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
@@ -14,10 +16,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
 });
 
+app.use(require('./middlewares/limiter'));
 app.use(require('./middlewares/corsHandler'));
 
 app.use(requestLogger);
@@ -46,6 +49,7 @@ app.use('/movies', auth, require('./routes/movies'));
 
 app.use('*', (req, res, next) => next(new NotFoundError(errMessageNotFound.request)));
 
+app.use(helmet());
 app.use(errorLogger);
 app.use(errors());
 app.use(require('./middlewares/errorHandler'));

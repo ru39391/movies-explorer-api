@@ -4,11 +4,7 @@ const {
   getUser, updateUser,
 } = require('../controllers/users');
 
-router.get('/me', celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().hex().length(24),
-  }),
-}), getUser);
+router.get('/me', getUser);
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email(),

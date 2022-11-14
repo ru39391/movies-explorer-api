@@ -4,9 +4,8 @@ const User = require('../models/user');
 const ValidationError = require('../errors/validation-err');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
-const {
-  NODE_ENV_DEFAULT, JWT_SECRET_DEFAULT, actionMessages, errMessageNotFound,
-} = require('../utils/constants');
+const { actionMessages, errMessageNotFound } = require('../utils/constants');
+const { NODE_ENV_DEFAULT, JWT_SECRET_DEFAULT } = require('../utils/config');
 
 const { NODE_ENV = NODE_ENV_DEFAULT, JWT_SECRET } = process.env;
 
@@ -18,12 +17,7 @@ module.exports.getUser = (req, res, next) => {
       }
       return res.send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new ValidationError(actionMessages.errorId));
-      }
-      return next(err);
-    });
+    .catch((err) => next(err));
 };
 
 module.exports.createUser = (req, res, next) => {
