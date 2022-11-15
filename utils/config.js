@@ -1,6 +1,6 @@
 const NODE_ENV_DEFAULT = 'development';
 const JWT_SECRET_DEFAULT = 'dev-secret';
-const DB_ADDRESS = 'mongodb://localhost:27017/moviesdb';
+const DB_CONN_DEFAULT = 'mongodb://localhost:27017/moviesdb';
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 const allowedCors = [
@@ -12,7 +12,7 @@ const allowedCors = [
 
 module.exports = {
   allowedCors,
-  DB_ADDRESS,
+  DB_CONN_DEFAULT,
   NODE_ENV_DEFAULT,
   JWT_SECRET_DEFAULT,
   DEFAULT_ALLOWED_METHODS,

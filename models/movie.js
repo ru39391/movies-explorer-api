@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validators = require('mongoose-validators');
+const { validator } = require('validator');
 const { errMessageValidation } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
@@ -26,17 +26,26 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: [true, errMessageValidation.required],
-    validate: validators.isURL({ message: errMessageValidation.url }),
+    validate: {
+      validator: (value) => validator.isURL(value),
+      message: errMessageValidation.url,
+    },
   },
   trailerLink: {
     type: String,
     required: [true, errMessageValidation.required],
-    validate: validators.isURL({ message: errMessageValidation.url }),
+    validate: {
+      validator: (value) => validator.isURL(value),
+      message: errMessageValidation.url,
+    },
   },
   thumbnail: {
     type: String,
     required: [true, errMessageValidation.required],
-    validate: validators.isURL({ message: errMessageValidation.url }),
+    validate: {
+      validator: (value) => validator.isURL(value),
+      message: errMessageValidation.url,
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

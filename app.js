@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { DB_ADDRESS } = require('./utils/config');
+const { NODE_ENV_DEFAULT, DB_CONN_DEFAULT } = require('./utils/config');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV = NODE_ENV_DEFAULT, DB_CONN } = process.env;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(DB_ADDRESS, {
+mongoose.connect(NODE_ENV === 'production' ? DB_CONN : DB_CONN_DEFAULT, {
   useNewUrlParser: true,
 });
 
