@@ -16,11 +16,8 @@ app.get('/crash-test', () => {
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateSignup, createUser);
 
-app.use('/users', auth, require('./users'));
-app.use('/movies', auth, require('./movies'));
+app.use(auth);
+app.use(require('./users'));
+app.use(require('./movies'));
 
 app.use('*', (req, res, next) => next(new NotFoundError(errMessageNotFound.request)));
-
-module.exports = {
-  app
-};
