@@ -63,9 +63,11 @@ module.exports.removeMovie = (req, res, next) => {
         Movie.findOneAndRemove({ owner: _id, _id: movieId })
           .then(() => res.send({ message: actionMessages.successMovieRemoved }))
           .catch((err) => next(err));
+      } else {
+        return next(new AccessError(actionMessages.errorMovieAccess));
       }
 
-      return next(new AccessError(actionMessages.errorMovieAccess));
+      return false;
     })
     .catch((err) => {
       if (err.name === 'CastError') {

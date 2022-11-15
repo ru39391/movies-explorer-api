@@ -1,4 +1,4 @@
-const { validator } = require('validator');
+const validator = require('validator');
 const { celebrate, Joi } = require('celebrate');
 const { errMessageValidation } = require('../utils/constants');
 
@@ -17,15 +17,15 @@ const validateSignup = celebrate({
 });
 const validateUserUpdating = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email(),
-    name: Joi.string().min(2).max(30),
+    email: Joi.string().email().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 const validateMovieCreating = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
-    duration: Joi.string().required(),
+    duration: Joi.number().integer().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom((value, helpers) => {
@@ -46,7 +46,7 @@ const validateMovieCreating = celebrate({
       }
       return helpers.message(errMessageValidation.url);
     }),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().integer().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

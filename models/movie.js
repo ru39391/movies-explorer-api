@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { validator } = require('validator');
+const validator = require('validator');
 const { errMessageValidation } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({

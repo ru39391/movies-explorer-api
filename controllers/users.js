@@ -55,6 +55,9 @@ module.exports.updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError(err.message));
       }
+      if (err.code === 11000) {
+        return next(new ConflictError(actionMessages.errorUser));
+      }
       return next(err);
     });
 };
