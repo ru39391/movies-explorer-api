@@ -31,11 +31,7 @@ const actionMessages = {
   errorCrashTest: 'Сервер сейчас упадёт',
 };
 
-// eslint-disable-next-line no-useless-escape
-const patterUrl = /^(https?:\/\/)([w\.]{4})?([a-z0-9\.\-]{3,})([a-z]+)([\Wa-z0-9]+)#?/;
-
 module.exports = {
-  patterUrl,
   actionMessages,
   errMessageNotFound,
   errMessageValidation,
