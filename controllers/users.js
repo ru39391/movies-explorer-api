@@ -32,14 +32,8 @@ module.exports.createUser = (req, res, next) => {
       name,
     }))
     .then((user) => {
-      const {
-        // eslint-disable-next-line no-shadow
-        email, name,
-      } = user;
-      return res.send({
-        email,
-        name,
-      });
+      const { userEmail = email, userName = name } = user;
+      return res.send({ userEmail, userName });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

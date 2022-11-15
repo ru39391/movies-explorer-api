@@ -5,7 +5,6 @@ const { NODE_ENV_DEFAULT, JWT_SECRET_DEFAULT } = require('../utils/config');
 
 const { NODE_ENV = NODE_ENV_DEFAULT, JWT_SECRET } = process.env;
 
-// eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   const secretKey = NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEFAULT;
@@ -21,8 +20,8 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, secretKey);
   } catch (err) {
-    // eslint-disable-next-line consistent-return
-    return next(new AuthError(actionMessages.errorLogin));
+    next(new AuthError(actionMessages.errorLogin));
+    return;
   }
 
   req.user = payload;
